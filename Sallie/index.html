@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sallie Brand - UX Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://www.sallie.com/hubfs/fonts/RocGrotesk-VariableFont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'Roc Grotesk';
+            src: url('https://www.sallie.com/hubfs/fonts/RocGrotesk-VariableFont.woff2') format('woff2');
+            font-weight: 100, 400, 500, 600, 700, 900; /* Adjust to match the variable axis of your font */
+            font-style: normal;
+            font-display: swap; /* Ensures text is visible while the font loads as a fallback */
+        }
+
+        :root {
+            /* Brand Core */
+            --midnight-blue: #0C0034;
+            --raspberry: #FF156B;
+            --electric-blue: #004DE8;
+            /* Brand Accents */
+            --soft-yellow: #FFE37D;
+            --clear-blue: #55D3FF;
+            --orange-zest: #F06F1F;
+            --ultraviolet: #6238F8;
+            /* Semantic UI (Bootstrap) */
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --black: #000000;
+            --white: #FFFFFF;
+            /* Typography */
+            --font-headline: 'Roc Grotesk','Archivo Black', sans-serif;
+            --font-body: 'Open Sans', Arial, sans-serif;
+            /* Border */
+            --border-radius: 12px;
+            --border-width: 2px;
+            --border-color: #D9E1EB;
+            /* Background Surface Tokens */
+            --bg-primary-1: #FFFFFF;
+            --bg-primary-2: #F7F7F9;
+            --bg-secondary-1: #004DE8;
+            --bg-secondary-2: #003AAE;
+            --bg-accent-1: #6238F8;
+            --bg-accent-2: #55D3FF;
+            --bg-accent-3: #FF156B;
+            --bg-accent-4: #FFE37D;
+            --bg-tertiary-1: #FFF1C0;
+            --bg-tertiary-2: #EAF9FF;
+            --bg-tertiary-3: #D4CBF2;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: #FFFFFF;
+            color: var(--black);
+            margin: 0;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        header {
+            border-bottom: 4px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-headline);
+            color: var(--midnight-blue);
+            margin-top: 0;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2rem; margin-top: 60px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        
+        .logo svg {
+            margin: 0 auto;
+            max-width: 200px;
+            width: 200px;
+            height: auto;
+        }
+
+        .author-badge {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            border-radius: 6px; 
+            color: var(--white); 
+            background-color: var(--bg-accent-1); 
+            font-family: var(--font-body); 
+            font-size: 0.9rem; /* ~14px equivalent */
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 24px; 
+            min-height: 28px; 
+            padding: 4px 12px; 
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: #4B5563;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        /* Color & Asset Grids */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        /* Universal Card Styles with Hover Animation */
+        .color-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #E5E7EB;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .color-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .color-swatch {
+            height: 140px;
+            width: 100%;
+        }
+
+        /* 1:1 Square swatch specifically for Visual Assets */
+        .asset-swatch {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .visual-pattern {
+            background-color: var(--electric-blue);
+            background-image: url('https://www.sallie.com/hubfs/Website/images/wavy-background-ltr.svg');
+            background-position: right center;
+        }
+        
+        .visual-photography {
+            background-color: var(--white);
+            background-position: center;
+            background-image: url('https://www.salliemae.com/savings/smarty-pig/_jcr_content/root/container/column_control_126453506/par_0/text_media/image-v2.coreimg.png/1793196485910/young-adult-looking-back-while-confidently-walking-down-street-collagestyle.png');
+            /* background-image: url('https://www.sallie.com/hs-fs/hubfs/Website/Homepage/home-hero-1.jpg?length=1360&name=home-hero-1.jpg'); */
+            /* background-image: url('https://www.sallie.com/hs-fs/hubfs/Website/Homepage/hero-2.jpg?length=1360&name=hero-2.jpg'); */
+        }
+
+        .visual-graphic {
+            background-color: var(--white); 
+            background-image: url('https://www.salliemae.com/content/dam/global/dot-com/brand-graphics/bg_rate_card.svg');
+        }
+
+        .color-details {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .color-name {
+            font-family: var(--font-headline);
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .color-hex {
+            font-family: monospace;
+            color: #6B7280;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .color-desc {
+            font-size: 0.9rem;
+            color: #374151;
+            line-height: 1.5;
+        }
+
+        /* Smaller Color Grid (Half-size for Background Colors) */
+        .palette-grid-small {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .color-swatch-small {
+            height: 70px;
+            width: 100%;
+        }
+
+        .color-details-small {
+            padding: 12px;
+        }
+
+        .color-name-small {
+            font-family: var(--font-headline);
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+
+        .color-hex-small {
+            font-family: monospace;
+            color: #6B7280;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .color-desc-small {
+            font-size: 0.75rem;
+            color: #374151;
+            line-height: 1.4;
+        }
+
+        /* Typography Specs */
+        .type-spec {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 24px;
+            border: 1px solid #E5E7EB;
+        }
+        
+        .type-headline {
+            font-family: var(--font-headline);
+            font-size: 3rem;
+            line-height: 1.1;
+            margin-bottom: 10px;
+        }
+
+        .type-body {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            max-width: 800px;
+        }
+        
+        /* Alerts */
+        .alert {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border: 1px solid transparent;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            max-width: 800px;
+        }
+        
+        .alert-info { background-color: #d1ecf1; border-color: #bee5eb; color: #0c5460; }
+        .alert-success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .alert-warning { background-color: #fff3cd; border-color: #ffeeba; color: #856404; }
+        .alert-danger { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+
+        /* Accessibility Grid */
+        .accessibility-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .accessibility-card {
+            padding: 30px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        /* WCAG Compliant Text Sizes */
+        .accessibility-card h3 {
+            font-size: 1.25rem; 
+            font-weight: 700; 
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+        
+        .accessibility-card p {
+            font-size: 1rem; 
+            font-weight: 400; 
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="author-badge">Prepared by Lexy Yu, Backbase – Version 1.0</div>
+        <h1>Sallie Brand – UX Analysis</h1>
+        <p class="section-desc">Consolidated visual identity, typography, and color palettes incorporating core brand assets alongside Bootstrap semantic UI standards.</p>
+    </header>
+
+    <section>
+        <h2>Logos</h2>
+        <div class="palette-grid">
+            <!-- Card 1: Full Logo (3:2) on Light Surface -->
+            <div class="color-card">
+                <div style="background-color: var(--bg-primary-2); border-bottom: 1px solid #E5E7EB; display: flex; justify-content: center; align-items: center; aspect-ratio: 3/2; padding: 20px;">
+                    <img src="https://www.salliemae.com/content/dam/global/dot-com/logos/Sallie_logo_desktop.svg" alt="Sallie Full Logo" style="width: 80%; max-width: 100%; height: auto;">
+                </div>
+                <div class="color-details">
+                    <div class="color-name">Full Logo</div>
+                    <div class="color-desc">3:2 ratio on light surface</div>
+                </div>
+            </div>
+            
+            <!-- Card 2: Full Logo (3:2) on Dark Surface -->
+            <div class="color-card">
+                <div style="background-color: var(--midnight-blue); display: flex; justify-content: center; align-items: center; aspect-ratio: 3/2; padding: 20px;">
+                    <img src="https://www.salliemae.com/content/dam/slm/Media/logos/Corporate/sallie-logo.svg" alt="Sallie Full Logo" style="width: 80%; max-width: 80%; height: auto;">
+                </div>
+                <div class="color-details">
+                    <div class="color-name">Full Logo</div>
+                    <div class="color-desc">3:2 ratio on dark surface</div>
+                </div>
+            </div>
+
+            <!-- Card 3: Square Logo (1:1) on Light Surface -->
+            <div class="color-card">
+                <div style="background-color: var(--bg-primary-2); border-bottom: 1px solid #E5E7EB; display: flex; justify-content: center; align-items: center; aspect-ratio: 3/2; padding: 20px;">
+                    <img src="img/Sallie_logo_square_light.svg" alt="Sallie Full Logo" style="width: 50%; max-width: 80%; height: auto;">
+                </div>
+                <div class="color-details">
+                    <div class="color-name">Square Logo</div>
+                    <div class="color-desc">3:2 ratio on light surface</div>
+                </div>
+            </div>
+
+            <!-- Card 4: Square Logo (1:1) on Dark Surface -->
+            <div class="color-card">
+                <div style="background-color: var(--midnight-blue); display: flex; justify-content: center; align-items: center; aspect-ratio: 3/2; padding: 20px;">
+                    <img src="img/Sallie_logo_square_dark.svg" alt="Sallie Square Logo" style="width: 50%; max-width: 50%; height: auto;">
+                </div>
+                <div class="color-details">
+                    <div class="color-name">Square Logo</div>
+                    <div class="color-desc">1:1 ratio on dark surface</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Core Brand Colors</h2>
+        <p class="section-desc">The primary colors that establish the foundation of Sallie brand identity. Used for major structural elements, primary buttons, and key branding moments.</p>
+        <div class="palette-grid">
+            <div class="color-card">
+                <div class="color-swatch" style="background-color: var(--midnight-blue);"></div>
+                <div class="color-details">
+                    <div class="color-name">Midnight Blue</div>
+                    <div class="color-hex">#0C0034</div>
+                    <div class="color-desc">The primary grounding color representing stability, warmth, and safety. Used for heavy typography and structural backgrounds.</div>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" style="background-color: var(--raspberry);"></div>
+                <div class="color-details">
+                    <div class="color-name">Raspberry</div>
+                    <div class="color-hex">#FF156B</div>
+                    <div class="color-desc">The core brand highlight. Used to represent student individuality (e.g., the dot over the "i" in the logo) and to draw attention to key interactions.</div>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" style="background-color: var(--electric-blue);"></div>
+                <div class="color-details">
+                    <div class="color-name">Electric Blue</div>
+                    <div class="color-hex">#004DE8</div>
+                    <div class="color-desc">A vibrant, high-energy blue elevated for primary calls-to-action, core interactions, and strong graphic emphasis.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Accent Colors</h2>
+        <p class="section-desc">Supporting colors utilized in illustrations, charts, iconography, and organic shape overlays to create a dynamic, non-linear visual path.</p>
+        <div class="palette-grid">
+            <div class="color-card">
+                <div class="color-swatch" style="background-color: var(--soft-yellow);"></div>
+                <div class="color-details">
+                    <div class="color-name">Soft Yellow</div>
+                    <div class="color-hex">#FFE37D</div>
+                    <div class="color-desc">A warm, approachable accent color used for energetic backgrounds, graphic shapes, and softening high-contrast layouts.</div>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" style="background-color: var(--clear-blue);"></div>
+                <div class="color-details">
+                    <div class="color-name">Clear Blue</div>
+                    <div class="color-hex">#55D3FF</div>
+                    <div class="color-desc">A fresh, airy blue perfect for gradients, backgrounds, and highlighting subtle ui components.</div>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" style="background-color: var(--orange-zest);"></div>
+                <div class="color-details">
+                    <div class="color-name">Orange Zest</div>
+                    <div class="color-hex">#F06F1F</div>
+                    <div class="color-desc">A lively, energetic accent used sparingly for notifications, badges, or illustration details.</div>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" style="background-color: var(--ultraviolet);"></div>
+                <div class="color-details">
+                    <div class="color-name">Ultraviolet</div>
+                    <div class="color-hex">#6238F8</div>
+                    <div class="color-desc">A deep, creative purple that adds depth, contrast, and a modern digital feel to brand assets.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Semantic UI & Neutrals (Bootstrap)</h2>
+        <p class="section-desc">Standardized UI feedback colors and foundational neutrals to ensure digital accessibility and standard user experience patterns.</p>
+        <div class="palette-grid">
+            <div class="color-card">
+                <div class="color-swatch" style="background-color: var(--success);"></div>
+                <div class="color-details">
+                    <div class="color-name">UI Success</div>
+                    <div class="color-hex">#28A745</div>
+                    <div class="color-desc">Indicates successful actions, approvals, and positive trends (Green).</div>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" style="background-color: var(--danger);"></div>
+                <div class="color-details">
+                    <div class="color-name">UI Danger</div>
+                    <div class="color-hex">#DC3545</div>
+                    <div class="color-desc">Indicates errors, destructive actions, or critical system alerts (Red).</div>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" style="background-color: var(--warning);"></div>
+                <div class="color-details">
+                    <div class="color-name">UI Warning</div>
+                    <div class="color-hex">#FFC107</div>
+                    <div class="color-desc">Used for cautionary states, pending actions, and medium-priority alerts (Yellow).</div>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" style="background-color: var(--info);"></div>
+                <div class="color-details">
+                    <div class="color-name">UI Info</div>
+                    <div class="color-hex">#17A2B8</div>
+                    <div class="color-desc">Used for neutral information, tooltips, and contextual help (Cyan).</div>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" style="background-color: var(--black);"></div>
+                <div class="color-details">
+                    <div class="color-name">Neutral Black</div>
+                    <div class="color-hex">#000000</div>
+                    <div class="color-desc">Strict black for maximum contrast requirements and deepest shadows.</div>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" style="background-color: var(--white); border-bottom: 1px solid #E5E7EB;"></div>
+                <div class="color-details">
+                    <div class="color-name">Neutral White</div>
+                    <div class="color-hex">#FFFFFF</div>
+                    <div class="color-desc">Primary background color for clean, readable layouts and surface areas.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Semantic UI Feedback Color Demo</h2>
+        <p class="section-desc">Demonstration of semantic UI feedback colors for system feedback, user notifications, or form validation.</p>
+        
+        <div class="alert alert-info">
+            <strong>Info:</strong> This is an informational alert to share neutral updates, tips, or contextual help.
+        </div>
+        
+        <div class="alert alert-success">
+            <strong>Success:</strong> This is a success alert used to confirm a completed action or positive trend.
+        </div>
+        
+        <div class="alert alert-warning">
+            <strong>Warning:</strong> This is a warning alert indicating a pending action, incomplete step, or cautionary state.
+        </div>
+        
+        <div class="alert alert-danger">
+            <strong>Danger:</strong> This is a danger alert indicating an error, destructive action, or critical system issue.
+        </div>
+    </section>
+
+    <section>
+        <h2>Typography</h2>
+        <div class="type-spec">
+            <div style="font-family: var(--font-body); font-weight: 700; color: #6B7280; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px;">Primary / Headlines (Roc Grotesk / Archivo Black)</div>
+            <div class="type-headline">Any student, any goal. Let's fund it.</div>
+            <p class="type-body" style="font-family: var(--font-headline); font-size: 1rem; color: #6B7280;">Used for primary messaging, heroes, and major section titles. Conveys a strong, modern, and confident tone.</p>
+        </div>
+        
+        <div class="type-spec">
+            <div style="font-family: var(--font-body); font-weight: 700; color: #6B7280; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px;">Body Copy (Open Sans / Arial)</div>
+            <div class="type-body" style="font-size: 1.2rem; margin-bottom: 15px;">Smart borrowing starts with knowing your options. Learn why comparing loans can help you make an informed decision. Whatever your goal, don’t pay more than you need to.</div>
+            <p class="type-body" style="font-size: 0.95rem; color: #6B7280;">Highly legible, accessible sans-serif used for all standard body copy, ui components, labels, and instructional text.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Color Accessibility</h2>
+        <p class="section-desc">Accessible color combinations for overlapping elements ensuring WCAG compliant contrast ratios for both standard text and large text (Headings).</p>
+        
+        <div class="accessibility-grid">
+            
+            <!-- Midnight Blue Background -->
+            <div class="accessibility-card" style="background-color: var(--midnight-blue);">
+                <h3 style="color: var(--electric-blue);">Accessible large text color: Electric Blue</h3>
+                <h3 style="color: var(--ultraviolet);">Accessible large text color: Ultraviolet</h3>
+                <h3 style="color: var(--raspberry);">Accessible large text color: Raspberry</h3>
+                <h3 style="color: var(--orange-zest);">Accessible large text color: Orange Zest</h3>
+                <h3 style="color: var(--clear-blue);">Accessible large text color: Clear Blue</h3>
+                <h3 style="color: var(--soft-yellow);">Accessible large text color: Soft Yellow</h3>
+                <h3 style="color: var(--white);">Accessible large text color: White</h3>
+                <p style="color: var(--raspberry);">Accessible small text color: Raspberry</p>
+                <p style="color: var(--orange-zest);">Accessible small text color: Orange Zest</p>
+                <p style="color: var(--clear-blue);">Accessible small text color: Clear Blue</p>
+                <p style="color: var(--soft-yellow);">Accessible small text color: Soft Yellow</p>
+                <p style="color: var(--white);">Accessible small text color: White</p>
+            </div>
+            
+            <!-- White Background -->
+            <div class="accessibility-card" style="background-color: var(--white); border: 1px solid #E5E7EB;">
+                <h3 style="color: var(--midnight-blue);">Accessible large text color: Midnight Blue</h3>
+                <h3 style="color: var(--electric-blue);">Accessible large text color: Electric Blue</h3>
+                <h3 style="color: var(--ultraviolet);">Accessible large text color: Ultraviolet</h3>
+                <h3 style="color: var(--raspberry);">Accessible large text color: Raspberry</h3>
+                <h3 style="color: var(--orange-zest);">Accessible large text color: Orange Zest</h3>
+                <h3 style="color: var(--black);">Accessible large text color: Black</h3>
+                <p style="color: var(--midnight-blue);">Accessible small text color: Midnight Blue</p>
+                <p style="color: var(--electric-blue);">Accessible small text color: Electric Blue</p>
+                <p style="color: var(--ultraviolet);">Accessible small text color: Ultraviolet</p>
+                <p style="color: var(--black);">Accessible small text color: Black</p>
+            </div>
+
+            <!-- Electric Blue Background -->
+            <div class="accessibility-card" style="background-color: var(--electric-blue);">
+                <h3 style="color: var(--midnight-blue);">Accessible large text color: Midnight Blue</h3>
+                <h3 style="color: var(--clear-blue);">Accessible large text color: Clear Blue</h3>
+                <h3 style="color: var(--soft-yellow);">Accessible large text color: Soft Yellow</h3>
+                <h3 style="color: var(--black);">Accessible large text color: Black</h3>
+                <h3 style="color: var(--white);">Accessible large text color: White</h3>
+                <p style="color: var(--soft-yellow);">Accessible small text color: Soft Yellow</p>
+                <p style="color: var(--white);">Accessible small text color: White</p>
+            </div>
+            
+            <!-- Ultraviolet Background -->
+            <div class="accessibility-card" style="background-color: var(--ultraviolet);">
+                <h3 style="color: var(--midnight-blue);">Accessible large text color: Midnight Blue</h3>
+                <h3 style="color: var(--clear-blue);">Accessible large text color: Clear Blue</h3>
+                <h3 style="color: var(--soft-yellow);">Accessible large text color: Soft Yellow</h3>
+                <h3 style="color: var(--black);">Accessible large text color: Black</h3>
+                <h3 style="color: var(--white);">Accessible large text color: White</h3>
+                <p style="color: var(--soft-yellow);">Accessible small text color: Soft Yellow</p>
+                <p style="color: var(--white);">Accessible small text color: White</p>
+            </div>
+            
+            <!-- Soft Yellow Background -->
+            <div class="accessibility-card" style="background-color: var(--soft-yellow);">
+                <h3 style="color: var(--midnight-blue);">Accessible large text color: Midnight Blue</h3>
+                <h3 style="color: var(--electric-blue);">Accessible large text color: Electric Blue</h3>
+                <h3 style="color: var(--ultraviolet);">Accessible large text color: Ultraviolet</h3>
+                <h3 style="color: var(--black);">Accessible large text color: Black</h3>
+                <p style="color: var(--midnight-blue);">Accessible small text color: Midnight Blue</p>
+                <p style="color: var(--electric-blue);">Accessible small text color: Electric Blue</p>
+                <p style="color: var(--ultraviolet);">Accessible small text color: Ultraviolet</p>
+                <p style="color: var(--black);">Accessible small text color: Black</p>
+            </div>
+
+            <!-- Raspberry Background -->
+            <div class="accessibility-card" style="background-color: var(--raspberry);">
+                <h3 style="color: var(--midnight-blue);">Accessible large text color: Midnight Blue</h3>
+                <h3 style="color: var(--black);">Accessible large text color: Black</h3>
+                <h3 style="color: var(--white);">Accessible large text color: White</h3>
+                <p style="color: var(--midnight-blue);">Accessible small text color: Midnight Blue</p>
+                <p style="color: var(--black);">Accessible small text color: Black</p>
+            </div>
+
+            <!-- Clear Blue Background -->
+            <div class="accessibility-card" style="background-color: var(--clear-blue);">
+                <h3 style="color: var(--midnight-blue);">Accessible large text color: Midnight Blue</h3>
+                <h3 style="color: var(--electric-blue);">Accessible large text color: Electric Blue</h3>
+                <h3 style="color: var(--ultraviolet);">Accessible large text color: Ultraviolet</h3>
+                <h3 style="color: var(--black);">Accessible large text color: Black</h3>
+                <p style="color: var(--midnight-blue);">Accessible small text color: Midnight Blue</p>
+                <p style="color: var(--black);">Accessible small text color: Black</p>
+            </div>
+
+            <!-- Orange Zest Background -->
+            <div class="accessibility-card" style="background-color: var(--orange-zest);">
+                <h3 style="color: var(--midnight-blue);">Accessible large text color: Midnight Blue</h3>
+                <h3 style="color: var(--black);">Accessible large text color: Black</h3>
+                <h3 style="color: var(--white);">Accessible large text color: White</h3>
+                <p style="color: var(--midnight-blue);">Accessible small text color: Midnight Blue</p>
+                <p style="color: var(--black);">Accessible small text color: Black</p>
+            </div>
+            
+        </div>
+    </section>
+
+    <section>
+        <h2>Additional Surface Colors</h2>
+        <p class="section-desc">Sallie's additional surface tokens and their usage & functional analysis.</p>
+        <div class="palette-grid-small">
+            
+            <div class="color-card">
+                <div class="color-swatch-small" style="background-color: var(--bg-primary-1); border-bottom: 1px solid #E5E7EB;"></div>
+                <div class="color-details-small">
+                    <div class="color-name-small">Pure White</div>
+                    <div class="color-hex-small">#FFFFFF (primary-1)</div>
+                    <div class="color-desc-small"><strong>Default Canvas:</strong> Primary page background, form containers, and high-density financial disclosures requiring maximum readability.</div>
+                </div>
+            </div>
+
+            <div class="color-card">
+                <div class="color-swatch-small" style="background-color: var(--bg-primary-2); border-bottom: 1px solid #E5E7EB;"></div>
+                <div class="color-details-small">
+                    <div class="color-name-small">Cool Off-White</div>
+                    <div class="color-hex-small">#F7F7F9 (primary-2)</div>
+                    <div class="color-desc-small"><strong>Subtle Surface Elevation:</strong> Alternating content bands, comparison tables, calculator panels, and card surfaces to establish visual hierarchy without harsh borders.</div>
+                </div>
+            </div>
+
+            <div class="color-card">
+                <div class="color-swatch-small" style="background-color: var(--bg-secondary-1);"></div>
+                <div class="color-details-small">
+                    <div class="color-name-small">Electric Blue</div>
+                    <div class="color-hex-small">#004DE8 (secondary-1)</div>
+                    <div class="color-desc-small"><strong>Core Brand Action Surface:</strong> Primary CTA buttons, active navigation states, key conversion banners, and high-emphasis promotional sections.</div>
+                </div>
+            </div>
+
+            <div class="color-card">
+                <div class="color-swatch-small" style="background-color: var(--bg-secondary-2);"></div>
+                <div class="color-details-small">
+                    <div class="color-name-small">Deep Royal Blue</div>
+                    <div class="color-hex-small">#003AAE (secondary-2)</div>
+                    <div class="color-desc-small"><strong>Interactive State & Depth:</strong> Hover/active states for components, sticky utility bars, and deep-contrast structural containers.</div>
+                </div>
+            </div>
+
+            <div class="color-card">
+                <div class="color-swatch-small" style="background-color: var(--bg-accent-1);"></div>
+                <div class="color-details-small">
+                    <div class="color-name-small">Ultraviolet</div>
+                    <div class="color-hex-small">#6238F8 (accent-1)</div>
+                    <div class="color-desc-small"><strong>Feature & Digital Product Highlights:</strong> Secondary hero banners, student resource hubs, and modular callouts distinguishing digital tools from core loan products.</div>
+                </div>
+            </div>
+
+            <div class="color-card">
+                <div class="color-swatch-small" style="background-color: var(--bg-accent-2);"></div>
+                <div class="color-details-small">
+                    <div class="color-name-small">Clear Blue</div>
+                    <div class="color-hex-small">#55D3FF (accent-2)</div>
+                    <div class="color-desc-small"><strong>High-Energy Graphic Overlays:</strong> Decorative shapes, progress indicators, and bold callout badges paired strictly with Midnight Blue typography.</div>
+                </div>
+            </div>
+
+            <div class="color-card">
+                <div class="color-swatch-small" style="background-color: var(--bg-accent-3);"></div>
+                <div class="color-details-small">
+                    <div class="color-name-small">Raspberry</div>
+                    <div class="color-hex-small">#FF156B (accent-3)</div>
+                    <div class="color-desc-small"><strong>Focal Point & Individuality:</strong> High-urgency badges, micro-highlights, and select brand moments echoing the dot over the "i" in the Sallie Mae wordmark.</div>
+                </div>
+            </div>
+
+            <div class="color-card">
+                <div class="color-swatch-small" style="background-color: var(--bg-accent-4);"></div>
+                <div class="color-details-small">
+                    <div class="color-name-small">Soft Yellow</div>
+                    <div class="color-hex-small">#FFE37D (accent-4)</div>
+                    <div class="color-desc-small"><strong>Warmth & Approachability:</strong> Highlight banners, promotional strips, and graphic backdrops designed to soften dense financial pages.</div>
+                </div>
+            </div>
+
+            <div class="color-card">
+                <div class="color-swatch-small" style="background-color: var(--bg-tertiary-1);"></div>
+                <div class="color-details-small">
+                    <div class="color-name-small">Light Yellow Tint</div>
+                    <div class="color-hex-small">#FFF1C0 (tertiary-1)</div>
+                    <div class="color-desc-small"><strong>Low-Saturation Informational Container:</strong> Tinted version of Soft Yellow; used for editorial callout boxes, rate-disclaimer notices, and multi-line text containers.</div>
+                </div>
+            </div>
+
+            <div class="color-card">
+                <div class="color-swatch-small" style="background-color: var(--bg-tertiary-2);"></div>
+                <div class="color-details-small">
+                    <div class="color-name-small">Ice Blue Tint</div>
+                    <div class="color-hex-small">#EAF9FF (tertiary-2)</div>
+                    <div class="color-desc-small"><strong>Soft Informational / Feature Card:</strong> Tinted version of Clear Blue; used for "Did You Know" tips, FAQ containers, and gentle visual grouping.</div>
+                </div>
+            </div>
+
+            <div class="color-card">
+                <div class="color-swatch-small" style="background-color: var(--bg-tertiary-3);"></div>
+                <div class="color-details-small">
+                    <div class="color-name-small">Soft Lavender Tint</div>
+                    <div class="color-hex-small">#D4CBF2 (tertiary-3)</div>
+                    <div class="color-desc-small"><strong>Editorial & Tool Grouping:</strong> Tinted version of Ultraviolet; used for secondary feature cards, student-life content blocks, and multi-column grid backgrounds.</div>
+                </div>
+            </div>
+
+        </div>        
+    </section>
+    
+    <section>
+        <h2>Visual Assets</h2>
+        <p class="section-desc">Core visual elements including branded patterns, lifestyle photography, and abstract graphics used across digital products.</p>
+        
+        <div class="palette-grid">
+            <!-- Card 1: Visual Pattern -->
+            <div class="color-card">
+                <div class="asset-swatch visual-pattern" role="img" aria-label="Sallie Blue Wavy Brand Pattern"></div>
+                <div class="color-details">
+                    <div class="color-name">Pattern</div>
+                    <div class="color-hex">Pattern Sample</div>
+                    <div class="color-desc">The signature wavy topographical background. Used to add dynamic texture to hero banners, call-to-action sections, and prominent feature cards.</div>
+                </div>
+            </div>
+            
+            <!-- Card 2: Visual Photography -->
+            <div class="color-card">
+                <div class="asset-swatch visual-photography" role="img" aria-label="Collage style image of a young adult walking confidently"></div>
+                <div class="color-details">
+                    <div class="color-name">Photography</div>
+                    <div class="color-hex">Photography Sample</div>
+                    <div class="color-desc">Mixed-media cutout photography showcasing confident students. Used across product pages to create an approachable, energetic, and modern brand feel.</div>
+                </div>
+            </div>
+
+            <!-- Card 3: Visual Graphic -->
+            <div class="color-card">
+                <div class="asset-swatch visual-graphic" role="img" aria-label="Abstract background graphic for rate cards"></div>
+                <div class="color-details">
+                    <div class="color-name">Graphic</div>
+                    <div class="color-hex">Graphic Sample</div>
+                    <div class="color-desc">Abstract geometric branding element. Specifically designed to frame important financial figures, rates, and savings metrics in a clean and readable format.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
